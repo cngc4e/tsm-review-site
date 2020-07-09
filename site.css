@@ -1,0 +1,87 @@
+body {
+    color: #C2C2DA;
+	background-color: #402A1D;
+    font-family: Verdana;
+}
+
+.review-box {
+    border: 1px solid #8B583D;
+    height: 210px;
+    padding: 10px 10px;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.19);
+    background-color: #324650;
+}
+
+.review-box:hover {
+  box-shadow: 0 0 11px rgba(255, 255, 255, .2); 
+}
+
+.link {
+    color: #EDCC8D;
+}
+
+.link:hover, .link:active {
+     color: #A4CF9E;
+}
+
+hr {
+    border-color: #009D9D;
+}
+
+.table-review {
+    color: inherit;
+    background-color: #324650;
+    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.19);
+}
+
+.detail {
+    color: #009D9D;
+    font-size: 13px;
+}
+
+.status-error {
+    color: red;
+}
+
+.status-success {
+    color: green;
+}
+
+/* https://stackoverflow.com/a/33858727 */
+.ratings {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  color: #b1b1b1;
+  overflow: hidden;
+}
+
+.full-stars {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.hm-star .full-stars {
+    color: #FADE55;
+}
+
+.dm-star .full-stars {
+    color: #C53DFF;
+}
+
+.hm-star .full-stars:before {
+    -webkit-text-stroke: 1px #FADE55;
+}
+
+.dm-star .full-stars:before {
+    -webkit-text-stroke: 1px #C53DFF;
+}
+
+.empty-stars:before,
+.full-stars:before {
+  content: "\2605\2605\2605\2605\2605";
+  font-size: 14pt;
+}
