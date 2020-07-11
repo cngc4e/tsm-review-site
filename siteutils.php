@@ -2,6 +2,10 @@
 
 include_once 'database.php';
 
+function s($str) {
+    return htmlspecialchars($str);
+}
+
 class SiteUtils {
     /*
      * Create and set a cookie token for session user. 
@@ -66,6 +70,6 @@ class SiteUtils {
         $_SESSION = array();
         $expired = time() - 3600;
         setcookie("session_token", null, $expired);
-        setcookie("session_user_id", null, $expiry);
+        setcookie("session_user_id", null, $expired);
     }
 }

@@ -1,5 +1,4 @@
 <?php
-include_once 'database.php';
 include_once 'siteutils.php';
 
 session_start();
@@ -184,8 +183,8 @@ $user_reviews = $cmd->fetchAll(PDO::FETCH_ASSOC);
     <div class="container">
         <div style="text-align:center" class="mt-3">
             <span style="font-size: 2.5rem" class="text-center">@<?php echo $review['mapcode'] ?></span> (<a class="link" href="" onclick="changeMapcode(event);">edit</a>)
-            <div class="detail">Author: <?php echo $review['mapauthor'] ? $review['mapauthor'] : "null"; ?> (<a class="link" href="" onclick="changeAuthor(event);">edit</a>) |
-                Category: <a class="link" href="view_category.php?id=<?php echo $review['category_id'] ?>"><?php echo $review['category_name'] ?></a>
+            <div class="detail">Author: <?php echo $review['mapauthor'] ? s($review['mapauthor']) : "null"; ?> (<a class="link" href="" onclick="changeAuthor(event);">edit</a>) |
+                Category: <a class="link" href="view_category.php?id=<?php echo $review['category_id'] ?>"><?php echo s($review['category_name']) ?></a>
                 <span class="dropdown">
                     (<a class="link" href="" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">edit</a>)
                     <div class="dropdown-menu" aria-labelledby="dropdownCategory">
@@ -194,7 +193,7 @@ $user_reviews = $cmd->fetchAll(PDO::FETCH_ASSOC);
                         $categories = $cmd->fetchAll(PDO::FETCH_ASSOC);
                         foreach ($categories as $cat) {
                         ?>
-                            <a class="dropdown-item<?php if ($cat['category_id']==$review['category_id']) echo ' active'?>" href="" onclick="changeCategory(event, <?php echo $cat['category_id']?>)"><?php echo $cat['category_name']?> (<?php echo $cat['category_status']?>)</a>
+                            <a class="dropdown-item<?php if ($cat['category_id']==$review['category_id']) echo ' active'?>" href="" onclick="changeCategory(event, <?php echo $cat['category_id']?>)"><?php echo s($cat['category_name'])?> (<?php echo $cat['category_status']?>)</a>
                         <?php }?>
                     </div>
                 </span>
@@ -236,7 +235,7 @@ $user_reviews = $cmd->fetchAll(PDO::FETCH_ASSOC);
                     $dm_diff = $r['dm_diff'] ? number_format($r['dm_diff'], 2) : "-";
                 ?>
                     <tr>
-                        <td><?php echo $r['username'] ?></td>
+                        <td><?php echo s($r['username']) ?></td>
                         <td>
                             HM: <?php echo $hm_liking ?><br>
                             DM: <?php echo $dm_liking ?>
@@ -245,7 +244,7 @@ $user_reviews = $cmd->fetchAll(PDO::FETCH_ASSOC);
                             HM: <?php echo $hm_diff ?><br>
                             DM: <?php echo $dm_diff ?>
                         </td>
-                        <td><?php echo auto_link($r['comments']) ?></td>
+                        <td><?php echo auto_link(s($r['comments'])) ?></td>
                     </tr>
                 <?php }?>
             </table>

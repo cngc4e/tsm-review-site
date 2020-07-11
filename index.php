@@ -1,5 +1,4 @@
 <?php
-include_once 'database.php';
 include_once 'siteutils.php';
 
 session_start();
@@ -33,7 +32,7 @@ $categories = $cmd->fetchAll(PDO::FETCH_ASSOC);
         </div>
                 <?php foreach ($categories as $cat) { ?>
                     <a class="category-header text-decoration-none link" href="view_category.php?id=<?php echo $cat['category_id'] ?>">
-                        <?php echo $cat['category_name'] ?>
+                        <?php echo s($cat['category_name']) ?>
                     </a>
                     <hr />
                     <div class="row justify-content-center">
@@ -61,7 +60,7 @@ $categories = $cmd->fetchAll(PDO::FETCH_ASSOC);
                         ?>
                             <div class="review-box col-lg-5 m-3">
                                 <a class="stretched-link text-decoration-none link" href="review.php?id=<?php echo $r['review_id']?>">@<?php echo $r['mapcode'] ?></a>
-                                <span style="float:right">by <span style="color:#BABD2F"><?php echo $r['mapauthor'] ? $r['mapauthor'] : "-"; ?></span></span><br>
+                                <span style="float:right">by <span style="color:#BABD2F"><?php echo $r['mapauthor'] ? s($r['mapauthor']) : "-"; ?></span></span><br>
                                 HM Avg. Liking:
                                 <?php if ($av_hm_liking != null) {?>
                                 <span class="ratings hm-star">
@@ -87,14 +86,5 @@ $categories = $cmd->fetchAll(PDO::FETCH_ASSOC);
                         <?php }}?>
                     </div>
                 <?php }?>
-           <!-- -- TESTING --
-            <div class="row justify-content-center">
-                
-                <?php for ($i = 0; $i < 7; $i++) { ?>
-                <div class="review-box col-sm-4 m-3">
-                    <?php echo $i ?>
-                </div>
-                <?php }?>
-            </div>-->
     </div>
 </body>

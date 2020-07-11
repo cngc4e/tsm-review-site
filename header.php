@@ -1,7 +1,7 @@
 <header>
     <div class="container">
     <?php
-    include_once 'database.php';
+    include_once 'siteutils.php';
     
     if (isset($_SESSION['user_id'])) {
         $db = Database::getInstance();
@@ -13,8 +13,8 @@
     ?>
         
         <div class="text-center text-sm-right">
-            Logged in as <?php echo $row['username'] ?>
-            <?php if ($row['tfm_user']) echo "(".$row['tfm_user'].")" ?>
+            Logged in as <?php echo s($row['username']) ?>
+            <?php if ($row['tfm_user']) echo "(".s($row['tfm_user']).")" ?>
             <br>
             <a href="index.php">All Ongoing Reviews</a> |
             <a href="addmap.php">Add Maps</a> |
