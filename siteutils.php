@@ -1,6 +1,7 @@
 <?php
 
-include_once 'database.php';
+require_once 'database.php';
+require_once 'DAL.php';
 
 function s($str) {
     return htmlspecialchars($str);

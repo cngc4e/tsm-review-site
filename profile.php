@@ -85,7 +85,7 @@ $user = $cmd->fetch(PDO::FETCH_ASSOC);
                 <form action="" method="POST">
                     <div class="form-group">
                         <label for="user" class="mt-3">Username</label><br>
-                        <input type="text" name="user" class="form-control" value="<?php echo $user['username']?>">
+                        <input type="text" name="user" class="form-control" value="<?php echo $user->username ?>">
                     </div>
                     <div class="form-group">
                         <label for="pass" class="mt-3">Password</label><br>
@@ -93,15 +93,15 @@ $user = $cmd->fetch(PDO::FETCH_ASSOC);
                     </div>
                     <div class="form-group">
                         <label for="email" class="mt-3">Email (optional)</label><br>
-                        <input type="email" name="email" class="form-control" value="<?php echo $user['email']?>">
+                        <input type="email" name="email" class="form-control" value="<?php echo $user->email ?>">
                     </div>
                     <div class="form-group">
                         <label for="tfm_user" class="mt-3">Transformice Username (optional)</label><br>
-                        <input type="text" name="tfm_user" class="form-control" value="<?php echo $user['tfm_user']?>">
+                        <input type="text" name="tfm_user" class="form-control" value="<?php echo $user->tfm_user ?>">
                     </div>
                     <div class="form-group">
                         <label for="discord_user" class="mt-3">Discord Username (optional)</label><br>
-                        <input type="text" name="discord_user" class="form-control" value="<?php echo $user['discord_user']?>">
+                        <input type="text" name="discord_user" class="form-control" value="<?php echo $user->discord_user ?>">
                     </div>
                     <input type="submit" name="submit" value="Update" class="btn btn btn-light mt-4">
                 </form>

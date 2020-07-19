@@ -48,7 +48,7 @@ switch ($_POST['api_func']) {
                 
             // existing record
             $cmd = $db->prepare("UPDATE user_reviews SET
-                hm_diff = :hm_diff, dm_diff = :dm_diff, hm_liking = :hm_liking, dm_liking = :dm_liking, comments = :comments
+                hm_diff = :hm_diff, dm_diff = :dm_diff, hm_liking = :hm_liking, dm_liking = :dm_liking, comments = :comments, date_updated = CURRENT_TIMESTAMP()
                 WHERE user_id = :u_id AND review_id = :r_id");
             $cmd->bindValue(":u_id", $_SESSION['user_id']);
             $cmd->bindValue(":r_id", $review_id);
@@ -79,6 +79,7 @@ switch ($_POST['api_func']) {
                 $editreview_status = '<span style="color:green">Review added!</span>';
             }
         }
+        DAL::setDiscordShouldSend(true);
         break;
     }
     case "delreview": {

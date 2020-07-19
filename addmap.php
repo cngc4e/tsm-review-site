@@ -1,6 +1,7 @@
 <?php
-include_once 'database.php';
-include_once 'siteutils.php';
+require_once 'siteutils.php';
+require_once "DiscordConn.php";
+require_once "config.php";
 
 session_start();
 SiteUtils::cookieSessionRenew();
@@ -21,28 +22,58 @@ switch ($_POST['api_func']) {
             $addreview_status = '<span class="status-error">Bad request.</span>';
             break;
         }
+    
         $mapcode = preg_replace('/[^0-9]/', '', $_POST['mapcode']);  // only extract digits
         if (empty($mapcode)) {
             $addreview_status = '<span class="status-error">Invalid mapcode!</span>';
             break;
         }
+        
         $cmd = $db->prepare('SELECT COUNT(*) FROM reviews WHERE mapcode = :code AND category_id = :c_id');
         $cmd->bindValue(":c_id", $_POST['category_id']);
         $cmd->bindValue(":code", $mapcode);
         $cmd->execute();
         $cnt = $cmd->fetch(PDO::FETCH_NUM)[0];
+        
         if ($cnt > 0) {
             $addreview_status = '<span class="status-success">A map under this category of review already exists.</span>';
         } else {
+            $u_id = $_SESSION['user_id'];
+            $c_id = $_POST['category_id'];
             $cmd = $db->prepare("INSERT INTO reviews (mapcode, category_id, user_id)
                 VALUES (:code, :c_id, :u_id)");
-            $cmd->bindValue(":u_id", $_SESSION['user_id']);
-            $cmd->bindValue(":c_id", $_POST['category_id']);
+            $cmd->bindValue(":u_id", $u_id);
+            $cmd->bindValue(":c_id", $c_id);
             $cmd->bindValue(":code", $mapcode);
             if (!$cmd->execute()) {
                 $addreview_status = '<span class="status-error">An error occured while adding new map. Check your inputs.</span>';
             } else {
                 $addreview_status = '<span class="status-success">Map added!</span>';
+                
+                $disc = new DiscordConn(
+                    Config::$discord_webhook_url,
+                    Config::$discord_webhook_username,
+                    Config::$discord_webhook_avatar);
+                    
+                $r_id = $db->lastInsertId();
+                $user = DAL::getUser($u_id);
+                $msg = $disc->DMBuilder()
+                    ->addEmbed([
+                        "title" => "New submission: @{$mapcode} for review",
+                        "url" => "https://bagueatt.spr.io/tsmreview/review.php?id={$r_id}",
+                        "description" => "Category: July 2020",
+                        "author" => [
+                            "name" => "{$user->getDisplayName()}",
+                            "url" => "https://bagueatt.spr.io/tsmreview/view-profile.php?id={$u_id}",
+                            "icon_url" => "https://cdn.discordapp.com/icons/720126472186101761/17622162a493b57be885180d603c1233.png"
+                        ],
+                        "thumbnail" => [
+                            "url" => ""
+                        ],
+                        "color" => 0x0099ff,
+                    ]);
+                $disc->sendMessage($msg);
+                DAL::setDiscordShouldSend(true);
             }
         }
         break;
@@ -50,7 +81,6 @@ switch ($_POST['api_func']) {
     default:
         break;
 }
-
 ?>
 
 <!DOCTYPE html>
